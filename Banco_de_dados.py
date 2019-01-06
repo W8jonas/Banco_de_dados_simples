@@ -70,7 +70,11 @@ def escrever_txt():
 
 
 def escrever_bin():
-    print('oi')
+    ponteiro_bin = shelve.open('database')
+    ponteiro_dic = {}
+    ponteiro_dic['primeira_gravacao'] = dados_armazenados
+    print(ponteiro_dic)
+    ponteiro_dic['primeira_gravacao'] =
 
 
 def ler_txt():
