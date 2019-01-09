@@ -24,8 +24,7 @@ def programa():
     """)
     operacao = int(input())
     if operacao == 1:
-        ultima_linha()
-        # armazenar_valores()
+        armazenar_valores()
     elif operacao == 2:
         escrever_txt()
     elif operacao == 3:
@@ -70,7 +69,6 @@ def escrever_txt():
         ponteiro_txt.write(i)
         ponteiro_txt.write('\n')
     ponteiro_txt.close()
-    numero = j + numero
     programa()
 
 
@@ -83,7 +81,9 @@ def escrever_bin():
         linha = (j + numero).__str__()
         ponteiro_dic = {linha: dados_armazenados[i]}
         ponteiro_bin[linha] = ponteiro_dic
-    numero = j + numero
+        print(f'Linha = {linha} e dado armazenado = {dados_armazenados[i]}')
+        print("ficando assim: ")
+        print(ponteiro_bin[linha])
     ponteiro_bin.close()
     programa()
 
@@ -98,19 +98,37 @@ def ler_txt():
 def ler_bin():
     total_linhas = ultima_linha()
     ponteiro_bin = shelve.open('database_bin')
-    for i in range(3, total_linhas):
+    for i in range(5, total_linhas+1):
+        print(i.__str__())
         print(ponteiro_bin[i.__str__()])
     ponteiro_bin.close()
     programa()
 
 
 def ultima_linha():
-    ponteiro_txt = open(local, 'r')
-    lista = ponteiro_txt.readlines()
-    frase = lista[len(lista) - 1]
-    frase_2 = frase.split(';')
-    valor = int(frase_2[0])
-    ponteiro_txt.close()
+    global ponteiro_txt_
+    global valor
+    try:
+        print("TRY")
+        ponteiro_txt_ = open(local, 'r')
+        lista = ponteiro_txt_.readlines()
+        frase = lista[len(lista) - 1]
+        frase_2 = frase.split(';')
+        valor = int(frase_2[0])
+
+    except FileNotFoundError:
+        print("File Not Found Error")
+        ponteiro_txt_ = open(local, 'a')
+        ponteiro_txt.write('0;Primeira linha;0\n')
+        valor = 0
+
+    except IndexError:
+        print("Index Error")
+        valor = 0
+
+    finally:
+        print("FINALLY")
+        ponteiro_txt_.close()
     return valor
 
 
