@@ -24,7 +24,8 @@ def programa():
     """)
     operacao = int(input())
     if operacao == 1:
-        armazenar_valores()
+        ultima_linha()
+        # armazenar_valores()
     elif operacao == 2:
         escrever_txt()
     elif operacao == 3:
@@ -59,12 +60,12 @@ def armazenar_valores():
 
 
 def escrever_txt():
-    global numero
+    numero = ultima_linha()
     ponteiro_txt = open(local, 'a')
     j = 0
     for i in dados_armazenados:
         j += 1
-        ponteiro_txt.write((j+numero).__str__())
+        ponteiro_txt.write((j + numero).__str__())
         ponteiro_txt.write(';')
         ponteiro_txt.write(i)
         ponteiro_txt.write('\n')
@@ -74,7 +75,7 @@ def escrever_txt():
 
 
 def escrever_bin():
-    global  numero
+    numero = ultima_linha()
     ponteiro_bin = shelve.open('database_bin')
     j = 0
     for i in range(0, len(dados_armazenados)):
@@ -95,21 +96,22 @@ def ler_txt():
 
 
 def ler_bin():
-    print("oi")
+    total_linhas = ultima_linha()
     ponteiro_bin = shelve.open('database_bin')
-    for i in range(1, 3):
-        print(i.__str__())
-        print("a")
-        print(ponteiro_bin['1'])
-        print("b")
-        print(ponteiro_bin['2'])
-        print("c")
+    for i in range(3, total_linhas):
+        print(ponteiro_bin[i.__str__()])
     ponteiro_bin.close()
     programa()
 
 
 def ultima_linha():
-    print("oi")
+    ponteiro_txt = open(local, 'r')
+    lista = ponteiro_txt.readlines()
+    frase = lista[len(lista) - 1]
+    frase_2 = frase.split(';')
+    valor = int(frase_2[0])
+    ponteiro_txt.close()
+    return valor
 
 
 local = os.getcwd()
@@ -120,9 +122,8 @@ print(local)
 
 continuar = input(print("deseja continuar?"))
 continuar.upper()
-numero = 0
+
 if continuar == 'S' or "SIM" or 'Y' or 'YES':
     programa()
 else:
     exit()
-
